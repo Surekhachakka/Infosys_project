@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Verification System</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        header {
+            background-color: #003366; /* Navy blue color */
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            background-color: #005cbf; /* Button color */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #004494; /* Darker shade on hover */
+        }
+
+        .upload-container {
+            background-color: #ffffff; /* White background */
+            border: 2px solid #003366; /* Navy blue border */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px; /* Increased width to accommodate the table */
+        }
+
+        .upload-container h2 {
+            color: #003366; /* Navy blue for headings */
+            margin-top: 0;
+        }
+
+        .upload-container input[type="file"] {
+            display: block;
+            margin: 10px 0;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .verify-button {
+            background-color: #003366; /* Navy blue color */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .verify-button:hover {
+            background-color: #002244; /* Darker shade on hover */
+        }
+
+        img {
+            max-width: 100%;  /* Responsive scaling */
+            height: auto;
+        }
+
+        /* Table Styles */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .results-table th, .results-table td {
+            border: 1px solid #003366;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .results-table th {
+            background-color: #003366;
+            color: white;
+        }
+
+        .results-table td {
+            background-color: #e9f0fa; /* Light background for table cells */
+            color: #003366;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Signature Verification System</h1>
+    <div class="auth-buttons">
+        <a href="{% url 'login' %}" class="button">Login</a>
+        <a href="{% url 'logout' %}" class="button">Logout</a>
+    </div>
+</header>
+
+<div class="upload-container">
+    <h2>Upload Signature</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="signature_image" required>
+        <input type="submit" class="verify-button" value="Verify Signature">
+    </form>
+
+    {% if uploaded_file_url %}
+        <h3>Uploaded Signature:</h3>
+        <img src="{{ uploaded_file_url }}" alt="Uploaded Signature">
+    {% endif %}
+
+    <h2>Results</h2>
+    <table class="results-table">
+        <thead>
+            <tr>
+                <th>Model Name</th>
+                <th>Accuracy Score</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Model 1</td>
+                <td>{{ accuracy_score_model1 }}</td>
+                <td>{{ status_model1 }}</td>
+            </tr>
+            <tr>
+                <td>Model 2</td>
+                <td>{{ accuracy_score_model2 }}</td>
+                <td>{{ status_model2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
